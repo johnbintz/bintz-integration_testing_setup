@@ -1,0 +1,18 @@
+gem 'semantic_rails_view_helpers', :git => 'git://github.com/johnbintz/semantic_rails_view_helpers.git'
+
+group :cucumber do
+  gem 'cucumber'
+  gem 'cucumber-rails'
+  gem 'database_cleaner'
+  gem 'capybara'
+  gem 'cuke-pack', :git => 'git://github.com/johnbintz/cuke-pack.git'
+  gem 'foreman'
+  gem 'guard'
+  gem 'guard-cucumber'
+  gem 'rb-fsevent' # => for mac systems
+  gem 'persistent_selenium', :git => 'git://github.com/johnbintz/persistent_selenium.git'
+  gem 'poltergeist'
+  gem 'capybara-rails-log-inspection', :git => 'git://github.com/johnbintz/capybara-rails-log-inspection.git'
+  gem 'rspec'
+end
+

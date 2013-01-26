@@ -1,0 +1,65 @@
+#!/usr/bin/env ruby
+
+require 'thor'
+require 'bundler'
+
+class BintzIntegrationTestingSetup < Thor
+  include Thor::Actions
+
+  def self.source_root
+    File.expand_path('../../skel/root', __FILE__)
+  end
+
+  no_tasks do
+    def gem_root
+      Pathname(File.expand_path('../..', __FILE__))
+    end
+  end
+
+  desc 'install', 'Install my testing setup in your project'
+  def install
+    Bundler.with_clean_env do
+      if File.file?('Gemfile.penchant') #=> using Penchant
+        append_file('Gemfile.penchant', gem_root.join('skel/Gemfile-additions').read)
+        system "penchent gemfile"
+      else
+        append_file('Gemfile', gem_root.join('skel/Gemfile-additions').read)
+        system "bundle"
+      end
+
+      if !File.file?('features/support/env.rb')
+        system "bundle exec rails g cucumber:install"
+      end
+
+      system 'bundle exec cuke-pack install'
+
+      gsub_file 'config/cucumber.yml', 'precommit: <%=', 'precommit: DRIVER=poltergeist <%='
+
+      append_to_file 'Rakefile', <<-RB
+Rake::Task['default'].clear_prerequisites
+Rake::Task['default'].clear
+
+task :default => :cucumber
+RB
+
+      system 'which phantomjs 2>/dev/null >/dev/null'
+      if $?.exitstatus != 0
+        puts "For Poltergeist, install PhantomJS into your path: http://phantomjs.org/"
+      end
+
+      directory '.', '.'
+
+      system 'bundle exec cuke-pack wip-guard'
+
+      File.chmod 0755, 'bin/wip_cucumber'
+
+      puts "You can now run bin/wip_cucumber to run your Cucumber @wip tests continuously in persistent_selenium"
+    end
+  end
+
+  default_task :install
+end
+
+BintzIntegrationTestingSetup.start
+
+# vim: syntax=ruby
