@@ -134,13 +134,13 @@ dependent services like a Delayed Job worker or API tunnel, Foreman makes it a l
 
 #### `persistent_selenium`
 
-[Keep a Firefox (for now) window open](http://github.com/johnbintz/persistent_selenium) while you test, and don't close or reset the page after a failed step. Very helpful
-in quickly diagnosing problems and fixing them. Occasional DRb errors, but that's on every one out of 100 runs.
+[Keep a Firefox or Chrome window open](http://github.com/johnbintz/persistent_selenium) while you test, and don't close or reset the page after a failed step. Very helpful
+in quickly diagnosing problems and fixing them. Occasional DRb errors, but that's on about one of ever 100 runs or so.
 
 #### `poltergeist`
 
 When you're ready to run your whole test suite, use [the Poltergeist driver](http://github.com/jonleighton/poltergeist), which uses
-[PhantomJS](http://phantomjs.org) to run the tests in a super-fast headless browser.
+[PhantomJS](http://phantomjs.org) to run the tests in a super-fast (and slightly finicky in a good way) headless browser.
 
 #### `caypbara-rails-log-inspection`
 
@@ -197,7 +197,7 @@ Given /^I exist as a user$/ do
   @username = 'my username'
   @password = '123456'
 
-  # use bang!-style creates to help catch validation errors as you test
+  # use bang!-style creates to help catch validation errors as you test.
   # your test setup data should be valid anyway
   @user = User.create!(:username => @username, :password => @password)
 end
@@ -205,7 +205,7 @@ end
 Given /^I am logged in$/ do
   visit '/'
 
-  # use within liberally, and ensure that your pages have enoughs
+  # use within liberally, and ensure that your pages have enough
   # identifiers to use it effectively! good use of within means
   # you won't need to use xpath searching
   within '#login-form' do
@@ -221,7 +221,7 @@ end
 Given /^I am on the home page$/ do
   visit '/'
 
-  # find all by itself is an easy way to sanity check a page
+  # find all by itself is an easy way to sanity check a page.
   # it will raise an exception if the element does not exist
   # after Capybara.default_timeout
   find('body.home_page')
@@ -397,4 +397,5 @@ if my actual code is clean enough, it should be easy to create a new feature, or
 
 ## Changelog
 
+* v0.1.1 (2013-01-28): Tiny spelling and pucntuation changes
 * v0.1 (2013-01-25): Initial brain dump
