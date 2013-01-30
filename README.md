@@ -149,7 +149,7 @@ output.
 
 ### Remote API integration testing
 
-If your app has to connect to an remote API, it's better to use [VCR](https://github.com/myronmarston/vcr) to record the actual output from the
+If your app has to connect to an remote API, it's better to use [VCR](https://github.com/vcr/vcr) to record the actual output from the
 API, rather than mocking it directly using WebMock. You may need to mock certain things (Varnish BANs are a common one I have to mock up), but
 for the most part, use the actual data from the actual API, and if you're developing both in parallel, rebuild those cassettes often.
 
@@ -352,7 +352,8 @@ end
   pattern. If it's getting too big and you're passing a state around various methods, break it out.
 * Make new folders in `app` for things. I usually have one for Delayed Job job objects, one for value objects,
   one for behaviors or concerns (in Rails 4 they have dedicated `app/model/concerns` and `app/controller/concerns`,
-  but I also have those apply to 
+  but I also have those apply to other objects in the app's world, hence a dedicated directory for `app/behaviors`.
+* VCR note: the innermost cassette is the one that gets recorded to when you're nesting.
 
 ## Writing less better organized code
 
@@ -397,5 +398,6 @@ if my actual code is clean enough, it should be easy to create a new feature, or
 
 ## Changelog
 
+* v0.1.2 (2013-01-30): Small update for VCR and finishing a sentence
 * v0.1.1 (2013-01-28): Tiny spelling and pucntuation changes
 * v0.1 (2013-01-25): Initial brain dump
