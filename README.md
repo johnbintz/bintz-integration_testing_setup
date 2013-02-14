@@ -120,7 +120,7 @@ very fast form & show construction, and makes it easy to write tests to target e
 #### `cuke-pack`
 
 [This gem](http://github.com/johnbintz/cuke-pack) helps you set up a lot of common Cucumber environment settings, like support for Timecop, FakeFS, and Mocha;
-helps with confirming JavaScript dialogs; enables `cucumber-step_writer`; sets up Guard for a work-in-process workflow.
+helps with confirming JavaScript dialogs; enables `cucumber-step_writer`; sets up Guard for a work-in-process workflow; provides a one-at-a-time failed test rerun feature.
 
 #### `cucumber-step_writer`
 
@@ -327,6 +327,18 @@ the default Rake task runs the `cucumber:precommit` task. Ideally, you should al
 Sometimes, for practical reasons, you may want to turn a few of the slower/unchanging tests off with the `@no-precommit`
 tag. Just remember that you turned them off if you're starting to see problems in your app!
 
+When running a standard Cucumber run (using the `default` profile) or a `precommit` run, if you are using the cuke-pack
+`in_progress` hook and there are test failures, you'll get an `in_progress.txt` file in your project root. This
+file works very much like Cucumber `rerun.txt` style of testing, except instead of running all features at once (`@rerun.txt`'s
+normal behavior), it runs them one at a time until each one passes, eliminating the passing one from the list as you go.
+Internally, this uses `@rerun.txt` within a now-smart Cucumber profile, but it only passes in one feature at a time. There's
+no need to use `@wip` tags for this either. It will run and eliminate passing scenarios until everything in the `in_progress.txt`
+list is fixed. This takes over `@wip` tag processing, and will let you use `@wip` tags again once the list is empty or you
+delete `in_progress.txt`.
+
+For now, to make this work with Guard, use [my fork's `paths_from_profile` branch](https://github.com/johnbintz/guard-cucumber/tree/paths_from_profile) of `guard-cucumber`. Once this gets some more human
+testing, I'll submit it as a pull request against `guard-cucumber`.
+
 ## Testing things that Capybara can't test
 
 Sometimes you need to check HTTP headers, or load a file that Poltergeist of a browser will choke on (loading CSS or JS
@@ -398,6 +410,7 @@ if my actual code is clean enough, it should be easy to create a new feature, or
 
 ## Changelog
 
+* v0.2 (2013-02-14): Add `cuke-pack`'s `in_progress` mode.'
 * v0.1.2 (2013-01-30): Small update for VCR and finishing a sentence
 * v0.1.1 (2013-01-28): Tiny spelling and pucntuation changes
 * v0.1 (2013-01-25): Initial brain dump
