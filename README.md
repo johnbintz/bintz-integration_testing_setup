@@ -366,6 +366,9 @@ end
   one for behaviors or concerns (in Rails 4 they have dedicated `app/model/concerns` and `app/controller/concerns`,
   but I also have those apply to other objects in the app's world, hence a dedicated directory for `app/behaviors`.
 * VCR note: the innermost cassette is the one that gets recorded to when you're nesting.
+* Testing using external services, like [Feed Validator](http://feedvalidator.org/): Force the application to start up
+  by `visit`ing a safe page that doesn't do anything, or is wrapped by a VCR call. Then build the URL
+  to give to the remote service using `Capybara.app_host`, like you would with `Rack::Test`.
 
 ## Writing less better organized code
 
@@ -410,6 +413,7 @@ if my actual code is clean enough, it should be easy to create a new feature, or
 
 ## Changelog
 
+* v0.2.1 (2013-02-18): Note about using external validation services during testing
 * v0.2 (2013-02-14): Add `cuke-pack`'s `in_progress` mode.'
 * v0.1.2 (2013-01-30): Small update for VCR and finishing a sentence
 * v0.1.1 (2013-01-28): Tiny spelling and pucntuation changes
