@@ -21,7 +21,7 @@ class BintzIntegrationTestingSetup < Thor
     Bundler.with_clean_env do
       if File.file?('Gemfile.penchant') #=> using Penchant
         append_file('Gemfile.penchant', gem_root.join('skel/Gemfile-additions').read)
-        system "penchent gemfile"
+        system "penchant gemfile remote"
       else
         append_file('Gemfile', gem_root.join('skel/Gemfile-additions').read)
         system "bundle"
