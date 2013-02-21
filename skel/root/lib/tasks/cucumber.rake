@@ -18,7 +18,6 @@ begin
   end
 
   task :cucumber => 'cucumber:precommit'
-  task :default => 'cucumber:precommit'
 rescue LoadError
   $stderr.puts "no cucumber, skipping"
 end

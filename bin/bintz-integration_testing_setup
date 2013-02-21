@@ -33,8 +33,6 @@ class BintzIntegrationTestingSetup < Thor
 
       system 'bundle exec cuke-pack install'
 
-      gsub_file 'config/cucumber.yml', 'precommit: <%=', 'precommit: DRIVER=poltergeist <%='
-
       append_to_file 'Rakefile', <<-RB
 Rake::Task['default'].clear_prerequisites
 Rake::Task['default'].clear
