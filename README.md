@@ -63,7 +63,7 @@ I normally do things:
 gem 'bintz-integration_testing_setup', :git => 'git://github.com/johnbintz/bintz-integration_testing_setup.git'
 ```
 
-`bundle install`, then run `bundle exec bints-integration_testing_setup`. It's best to do this on a pristine
+`bundle install`, then run `bundle exec bintz-integration_testing_setup`. It's best to do this on a pristine
 project, but it may work on one that already has some stuff in it.
 
 ## Gem setup
@@ -369,6 +369,14 @@ end
 * Testing using external services, like [Feed Validator](http://feedvalidator.org/): Force the application to start up
   by `visit`ing a safe page that doesn't do anything, or is wrapped by a VCR call. Then build the URL
   to give to the remote service using `Capybara.app_host`, like you would with `Rack::Test`.
+* Sometimes Poltergeist and PhantomJS don't click the right element. This is due to the WebKit renderer being
+  silly sometimes. If you're having intermittent problems with a `click` on an element, use `dom_click` instead:
+
+  ``` ruby
+  find_submit.dom_click
+  ```
+
+  This will use a DOM click in drivers that support DOM event firing, and a regular `click` on other browsers (like Selenium).
 
 ## Writing less better organized code
 
