@@ -8,7 +8,7 @@ group :cucumber do
   gem 'cuke-pack', :git => 'git://github.com/johnbintz/cuke-pack.git'
   gem 'foreman'
   gem 'guard'
-  gem 'guard-cucumber'
+  gem 'guard-cucumber', :git => 'git://github.com/johnbintz/guard-cucumber.git', :branch => 'paths_from_profile'
   gem 'rb-fsevent' # => for mac systems
   gem 'persistent_selenium', :git => 'git://github.com/johnbintz/persistent_selenium.git'
   gem 'poltergeist'
