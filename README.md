@@ -66,6 +66,10 @@ gem 'bintz-integration_testing_setup', :git => 'git://github.com/johnbintz/bintz
 `bundle install`, then run `bundle exec bintz-integration_testing_setup`. It's best to do this on a pristine
 project, but it may work on one that already has some stuff in it.
 
+## Pure Ruby project?
+
+Want to use this setup with something that's not Rails? Pass the `--pure-ruby` flag to `bintz-integration_testing_setup`.
+
 ## Gem setup
 
 You'll need several gems to pull this off, some of them custom gems:

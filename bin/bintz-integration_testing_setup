@@ -14,24 +14,35 @@ class BintzIntegrationTestingSetup < Thor
     def gem_root
       Pathname(File.expand_path('../..', __FILE__))
     end
+
+    def rails
+      !options[:pure_ruby]
+    end
   end
 
   desc 'install', 'Install my testing setup in your project'
+  option :pure_ruby, type: :boolean
   def install
+    require 'erb'
+
     Bundler.with_clean_env do
+      additions = ERB.new(gem_root.join('skel/Gemfile-additions').read).result(binding)
+
       if File.file?('Gemfile.penchant') #=> using Penchant
-        append_file('Gemfile.penchant', gem_root.join('skel/Gemfile-additions').read)
+        append_file 'Gemfile.penchant', additions
         system "penchant gemfile remote"
       else
-        append_file('Gemfile', gem_root.join('skel/Gemfile-additions').read)
+        append_file 'Gemfile', additions
         system "bundle"
       end
 
-      if !File.file?('features/support/env.rb')
+      if rails && !File.file?('features/support/env.rb')
         system "bundle exec rails g cucumber:install"
       end
 
       system 'bundle exec cuke-pack install'
+
+      FileUtils.touch 'Rakefile'
 
       append_to_file 'Rakefile', <<-RB
 Rake::Task['default'].clear_prerequisites
@@ -40,9 +51,11 @@ Rake::Task['default'].clear
 task :default => :cucumber
 RB
 
-      system 'which phantomjs 2>/dev/null >/dev/null'
-      if $?.exitstatus != 0
-        puts "For Poltergeist, install PhantomJS into your path: http://phantomjs.org/"
+      if rails
+        system 'which phantomjs 2>/dev/null >/dev/null'
+        if $?.exitstatus != 0
+          puts "For Poltergeist, install PhantomJS into your path: http://phantomjs.org/"
+        end
       end
 
       directory '.', '.'

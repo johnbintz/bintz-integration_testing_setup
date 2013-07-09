@@ -1,3 +1,4 @@
 guard: guard -g wip
+<% if rails %>
 ps: persistent_selenium start
-
+<% end %>

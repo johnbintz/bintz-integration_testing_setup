@@ -1,5 +1,6 @@
 # capybara drivers for fast testing
 #
+<% if rails %>
 # this one runs your entire test suite
 require 'capybara/poltergeist'
 
@@ -22,3 +23,4 @@ class Capybara::Node::Element
   end
 end
 
+<% end %>
